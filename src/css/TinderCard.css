@@ -8,6 +8,7 @@
     max-width: 85vw;
     border-radius: 20px;
     background-position: center;
+    padding: 20px;
 }
 .tinderCards_cardContainer{
     display: flex;
@@ -22,4 +23,8 @@
     bottom: 0;
     margin: 10px;
     color: white;
+}
+.cardContent{
+    height: 100%;
+    width: 100%;
 }

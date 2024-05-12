@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/TinderCard.css';
 import TinderCard from 'react-tinder-card';
+import axios from './axios.js';
 function Tindercard() {
     //configure-state for component
-    const [people,setPepole] = useState([
-        {
-            name: 'Yuvraj Singh',
-            pic :"https://2.bp.blogspot.com/-eB4NFDxXXxI/WDLqbtgi6fI/AAAAAAAAAW0/qj_nkYjN4pAgul9e9tysRcnj8yda7UCDwCLcB/s1600/Yuvraj%2BSingh%2BImages-hd.jpg"
-        },
-        {
-            name: 'Rohit Sharma',
-            pic :"https://img.cricketworld.com/images/f-075088/rohit-sharma.jpg"
-        }
-    ])
+    const [people,setPepole] = useState([]);
+    
+    useEffect(()=>{
+      async function fetchData(){
+        const req = await axios.get("/tinder/cards");
+        //set data
+        setPepole(req.data);
+      }
+      fetchData();
+    },[])
     const Swiped = (direction, nameToDelete) => {
         console.log('You swiped: ' + nameToDelete)
       }
@@ -25,17 +26,17 @@ function Tindercard() {
      <div className='tinderCards_cardContainer'>
      {
         people.map(person=>
-            // <h1>{person.name}</h1>
-            <TinderCard key={person.name} className='swipe' onSwipe={dir=>Swiped(dir,person.name)} onCardLeftScreen={() => ooutOfFrame(person.name)} preventSwipe={['right', 'left']}>
+          // <h1>{person.name}</h1>
+          <TinderCard key={person.name} className='swipe' onSwipe={dir=>Swiped(dir,person.name)} onCardLeftScreen={() => ooutOfFrame(person.name)} preventSwipe={['right', 'left']}>
 
-         <div style={{backgroundImage:`url(${person.pic})`}} className='card'>
-            <h3>{person.name}</h3>
-         </div>
+       <div style={{backgroundImage:`url(${person.picUrl})`}} className='card'>
+          <h3>{person.name}</h3>
+       </div>
 
-            </TinderCard>
-            
+          </TinderCard>
+          
 
-            )
+          )
       }
      </div>
     </div>
